@@ -1,0 +1,12 @@
+<?php
+
+/**
+ * @package     Bale Php
+ * @link        https://github.com/smartwf/balephp
+ * @author      Smart <Hooshmandmrh@gmail.com>
+ */
+
+/**
+ *** Auto Load
+ */
+require 'autoload.php';
