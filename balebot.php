@@ -585,7 +585,7 @@ class BaleBot
      *** Use this method to create user id from sender
      *
      * @param object $sender sender
-     * @return string
+     * @return string|bool
      */
     public function createUserIdFromSender($sender) {
         return $this->createChatIdFromPeer($sender);
@@ -697,7 +697,7 @@ class BaleBot
      * @return object
      */
     public function send($chat_id=null){
-        if ($chat_id == null)
+        if ($chat_id === null)
             $chat_id = $this->default_chat_id;
         $this->datas->t = 1;
         $this->datas->chat_id = $chat_id;
