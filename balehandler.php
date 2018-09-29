@@ -53,7 +53,7 @@ class BaleHandler{
      *** get cached data
      *
      * @param string $key cache key name
-     * @return null
+     * @return mixed
      */
     private static function cache_get($key) {
         @include "/tmp/$key";
@@ -78,7 +78,7 @@ class BaleHandler{
      * @return int
      */
     public static function getStep($user_id = null){
-        $user_id = ($user_id == null)?BaleUpdate::userId():$user_id;
+        $user_id = ($user_id === null)?BaleUpdate::userId():$user_id;
         $uId = hexdec(crc32($user_id));
         $step = self::cache_get('step'.$uId);
         return ($step != null)?$step:0;
@@ -92,7 +92,7 @@ class BaleHandler{
      * @return null
      */
     public static function setStep($user_id = null,$step = 0){
-        $user_id = ($user_id == null)?BaleUpdate::userId():$user_id;
+        $user_id = ($user_id === null)?BaleUpdate::userId():$user_id;
         $uId = hexdec(crc32($user_id));
         self::cache_set('step'.$uId,$step);
     }
@@ -104,7 +104,7 @@ class BaleHandler{
      * @return null
      */
     public static function nextStep($user_id = null){
-        $user_id = ($user_id == null)?BaleUpdate::userId():$user_id;
+        $user_id = ($user_id === null)?BaleUpdate::userId():$user_id;
         $uId = hexdec(crc32($user_id));
         $step = self::getStep($user_id);
         self::cache_set('step'.$uId,$step+1);
@@ -117,7 +117,7 @@ class BaleHandler{
      * @return null
      */
     public static function beforeStep($user_id = null){
-        $user_id = ($user_id == null)?BaleUpdate::userId():$user_id;
+        $user_id = ($user_id === null)?BaleUpdate::userId():$user_id;
         $uId = hexdec(crc32($user_id));
         $step = self::getStep($user_id);
         self::cache_set('step'.$uId,($step == 0)?0:$step-1);
@@ -130,7 +130,7 @@ class BaleHandler{
      * @return null
      */
     public static function resetStep($user_id = null){
-        $user_id = ($user_id == null)?BaleUpdate::userId():$user_id;
+        $user_id = ($user_id === null)?BaleUpdate::userId():$user_id;
         self::setStep($user_id,0);
     }
 
@@ -143,7 +143,7 @@ class BaleHandler{
      * @return null
      */
     public static function cacheData($name,$val,$user_id = null){
-        $user_id = ($user_id == null)?BaleUpdate::userId():$user_id;
+        $user_id = ($user_id === null)?BaleUpdate::userId():$user_id;
         $uId = hexdec(crc32($user_id));
         self::cache_set($name.$uId,$val);
     }
@@ -156,7 +156,7 @@ class BaleHandler{
      * @return null
      */
     public static function getCachedData($name,$user_id = null){
-        $user_id = ($user_id == null)?BaleUpdate::userId():$user_id;
+        $user_id = ($user_id === null)?BaleUpdate::userId():$user_id;
         $uId = hexdec(crc32($user_id));
         return self::cache_get($name.$uId);
     }
@@ -168,9 +168,9 @@ class BaleHandler{
      * @return null
      */
     public static function clearCache($name,$user_id = null){
-        $user_id = ($user_id == null)?BaleUpdate::userId():$user_id;
+        $user_id = ($user_id === null)?BaleUpdate::userId():$user_id;
         $uId = hexdec(crc32($user_id));
-        @unlink("/tmp/$name".$uId);
+        /** @scrutinizer ignore-unhandled */ @unlink("/tmp/$name".$uId);
     }
 
 
@@ -270,8 +270,8 @@ class BaleHandler{
             $text = (is_array($text))?$text:[$text];
             foreach ($text as $t) {
                 if (self::textHas(strtolower(BaleUpdate::message()->text), strtolower($t))) {
-                    if ($sendIfNotAnswered == true) {
-                        if (self::$answered == false) {
+                    if ($sendIfNotAnswered === true) {
+                        if (self::$answered === false) {
                             self::$answered = true;
                             return $function(self::$bot);
                         }
@@ -292,7 +292,7 @@ class BaleHandler{
      */
     public static function handleTextElse($function){
         if (BaleUpdate::updateType()=='Message' && BaleUpdate::messageType()=='Text'){
-            if (self::$answered==false){
+            if (self::$answered===false){
                 self::$answered=true;
                 return $function(self::$bot);
             }
@@ -448,7 +448,7 @@ class BaleHandler{
      */
     public static function handleElse($function){
         if (BaleUpdate::updateType()=='Message' && BaleUpdate::messageType() != null){
-            if (self::$answered==false){
+            if (self::$answered===false){
                 self::$answered=true;
                 return $function(self::$bot);
             }
@@ -463,7 +463,7 @@ class BaleHandler{
      */
     public static function handleBack($chat_id=null,$types='text,sticker,contact,location,document,photo,video,voice'){
 
-        self::$handle_back_chat_id = ($chat_id == null)?BaleUpdate::chatId():$chat_id;
+        self::$handle_back_chat_id = ($chat_id === null)?BaleUpdate::chatId():$chat_id;
 
         $types=strtolower($types);
 

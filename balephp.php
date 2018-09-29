@@ -9,6 +9,10 @@
 
 class BalePhp{
 
+    // Variable of BaleBot Class
+    protected static $bot;
+
+
     /**
      *** initialize Class and get updates
      *
@@ -17,8 +21,18 @@ class BalePhp{
      */
     public static function run($token){
         BaleUpdate::getNewUpdate();
-        $baleBot = new BaleBot($token);
-        BaleHandler::setBaleBot($baleBot);
+        self::$bot = new BaleBot($token);
+        BaleHandler::setBaleBot(self::$bot);
+    }
+
+
+    /**
+     *** use this method to get bot
+     *
+     * @return BaleBot
+     */
+    public static function bot(){
+        return self::$bot;
     }
 
 }

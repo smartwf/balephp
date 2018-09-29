@@ -22,3 +22,4 @@ require $dir.'balebot.php';
 
 // require balephp.php
 require $dir.'balephp.php';
+
